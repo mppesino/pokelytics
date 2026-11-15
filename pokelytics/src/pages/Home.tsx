@@ -178,7 +178,7 @@ export default function Home() {
  
 
             {/* Objectives */}
-            <div className="md:col-span-2 min-h-64 rounded-2xl border-2 border-poke-blue-paler bg-linear-to-br from-poke-blue-pale to-poke-blue-paler p-6">
+            <div className="md:col-span-2 rounded-2xl border-2 border-poke-blue-paler bg-linear-to-br from-poke-blue-pale to-poke-blue-paler p-6">
               <h3 className="font-poppins text-2xl font-bold text-white">
                 Objectives
               </h3>
