@@ -3,6 +3,13 @@
 @import "tailwindcss";
 
 @theme {
+  --animate-marquee: marquee 60s linear infinite;
+
+  @keyframes marquee {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+
   --color-poke-blue: #3B4CCA;
   --color-poke-blue-dark: #29358c;
     --color-poke-blue-pale: #4f5dc4;
