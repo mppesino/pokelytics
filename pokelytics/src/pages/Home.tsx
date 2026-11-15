@@ -115,28 +115,27 @@ export default function Home() {
 
           <div className="mt-10 grid gap-8 md:grid-cols-2">
             {/* Problem */}
-            <div className="min-h-64 rounded-2xl border-2 border-poke-blue-dark/20 p-6">
-              <h3 className="font-poppins text-2xl font-bold text-poke-blue-pale">
+                <div className="min-h-64 rounded-2xl border-2 border-poke-red-paler bg-linear-to-br from-poke-red-pale to-poke-red-paler p-6">
+                    <h3 className="font-poppins text-2xl font-bold text-white">
                 The Problem Statement
-              </h3>
-              <p className="mt-4 font-poppins text-base leading-relaxed text-gray-700">
+                </h3>
+                <p className="mt-4 font-poppins text-base leading-relaxed text-white">
                 Labeling something from its measurable traits is a problem far bigger
                 than Pokémon. Biologists do it when classifying a newly found species,
-                and Pokémon game developers may struggle with deciding a Pokémon’s type despite
-                having decided on their attributes. Can an algorithm predict a Pokémon’s type
-                from its stats and traits, and can it uncover patterns that may give insights
-                to how a Pokémon is designed?
-              </p>
+                and Pokémon game developers may struggle with deciding a Pokémon’s type
+                despite having decided on their attributes. Can an algorithm predict a
+                Pokémon’s type from its stats and traits, and can it uncover patterns
+                that may give insights to how a Pokémon is designed?
+                </p>
             </div>
 
 
-
             {/* Motivation */}
-            <div className="min-h-64 rounded-2xl border-2 border-poke-blue-dark/20 p-6">
-              <h3 className="font-poppins text-2xl font-bold text-poke-blue-pale">
+            <div className="min-h-64 rounded-2xl border-2 border-poke-red-paler bg-linear-to-br from-poke-red-pale to-poke-red-paler p-6">
+              <h3 className="font-poppins text-2xl font-bold text-white">
                 Our Motivation
               </h3>
-              <p className="mt-4 font-poppins text-base leading-relaxed text-gray-700">
+              <p className="mt-4 font-poppins text-base leading-relaxed text-white">
                 We believe that all Pokémon matter, and yet every newly discovered
                 Pokémon raises the same question: what type is it? Type decides how a
                 Pokémon fights, which attacks it resists, and which rivals it should
@@ -179,11 +178,11 @@ export default function Home() {
  
 
             {/* Objectives */}
-            <div className="rounded-2xl border-2 border-poke-blue-dark/20 p-6 md:col-span-2">
-              <h3 className="font-poppins text-2xl font-bold text-poke-blue-pale">
+            <div className="md:col-span-2 min-h-64 rounded-2xl border-2 border-poke-blue-paler bg-linear-to-br from-poke-blue-pale to-poke-blue-paler p-6">
+              <h3 className="font-poppins text-2xl font-bold text-white">
                 Objectives
               </h3>
-              <ul className="mt-4 list-disc space-y-2 pl-5 font-poppins text-base leading-relaxed text-gray-700">
+              <ul className="mt-4 list-disc space-y-2 pl-5 font-poppins text-base leading-relaxed text-white">
                 <li>
                   Gather a comprehensive Pokémon dataset with the features necessary for training.
                 </li>

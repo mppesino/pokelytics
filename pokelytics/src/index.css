@@ -12,12 +12,13 @@
 
   --color-poke-blue: #3B4CCA;
   --color-poke-blue-dark: #29358c;
-    --color-poke-blue-pale: #4f5dc4;
+  --color-poke-blue-pale: #4f5dc4;
+  --color-poke-blue-paler:#757CBF;
 
   --color-poke-red: #FF0000;
   --color-poke-red-dark: #CC0000;
   --color-poke-red-pale: #c92c2c;
-  --color-poke-red-light: #ff5f5f;
+  --color-poke-red-paler: #be5151;
 
   --color-poke-red-dark-pale: #AA2424;
 
