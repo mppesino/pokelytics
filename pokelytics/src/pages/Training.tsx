@@ -7,15 +7,12 @@ export default function Training() {
       <main className="min-h-screen bg-white px-8 py-20">
         <div className="mx-auto max-w-6xl">
           <header className="mb-12">
-            <p className="font-poppins text-sm font-semibold uppercase tracking-[0.25em] text-poke-blue-pale">
-              Model documentation
-            </p>
             <h1 className="mt-3 font-luckiest text-5xl text-poke-red-pale md:text-7xl">
               Training
             </h1>
             <p className="mt-4 max-w-3xl font-poppins text-lg leading-relaxed text-slate-700">
-              Pokelytics compares three algorithms that predict a Pokemon&apos;s
-              primary type from its recorded traits and statistics.
+              Pokélytics compares three algorithms that predict a Pokémon&apos;s
+              primary type from its attributes.
             </p>
           </header>
 
@@ -32,9 +29,9 @@ export default function Training() {
                   K-Nearest Neighbors
                 </h3>
                 <p className="mt-4 font-poppins leading-relaxed">
-                  KNN compares a test Pokemon with every training Pokemon
+                  KNN compares a test Pokémon with every training Pokémon
                   using Minkowski distance. The predicted type is the most
-                  common type among its nearest neighbors. Pokelytics uses the
+                  common type among its nearest neighbors. Pokélytics uses the
                   one-hot ability, shape, and color features, with Manhattan
                   distance.
                 </p>
@@ -49,7 +46,7 @@ export default function Training() {
                 </h3>
                 <p className="mt-4 font-poppins leading-relaxed">
                   Naive Bayes calculates the probability of each type from the
-                  Pokemon&apos;s categorical traits. It combines the class prior
+                  Pokémon&apos;s categorical traits. It combines the class prior
                   with the conditional probability of each observed trait, then
                   selects the type with the highest posterior probability.
                   Laplace smoothing prevents unseen traits from producing a
@@ -63,8 +60,8 @@ export default function Training() {
               <article className="rounded-2xl border-2 border-poke-red-paler bg-linear-to-br from-poke-red-paler to-poke-red-pale p-6 text-white">
                 <h3 className="font-poppins text-2xl font-bold">K-Means</h3>
                 <p className="mt-4 font-poppins leading-relaxed">
-                  K-Means groups Pokemon by similarity in their numeric
-                  features. It repeatedly assigns each Pokemon to the nearest
+                  K-Means groups Pokémon by similarity in their numeric
+                  features. It repeatedly assigns each Pokémon to the nearest
                   centroid and moves each centroid to its group&apos;s mean. Each
                   cluster receives the most common primary type among its
                   training members, which is then used for prediction.
@@ -89,7 +86,7 @@ export default function Training() {
             <div className="mt-6 grid gap-8 font-poppins text-slate-700 md:grid-cols-2">
               <div>
                 <h3 className="text-xl font-bold text-slate-900">
-                  Data and preprocessing
+                  Dataset and Preprocessing
                 </h3>
                 <ul className="mt-3 list-disc space-y-2 pl-5 leading-relaxed">
                   <li>The dataset is divided into 70% training and 30% testing data.</li>
@@ -101,13 +98,13 @@ export default function Training() {
                     K-Means uses numeric statistics and standardizes each
                     feature using training-set mean and standard deviation.
                   </li>
-                  <li>Our target is to determine the the Pokemon&apos;s primary type given its features.</li>
+                  <li>Our target is to determine the the Pokémon&apos;s primary type given its features.</li>
                 </ul>
               </div>
 
               <div>
                 <h3 className="text-xl font-bold text-slate-900">
-                  Tuning and evaluation
+                  Tuning and Evaluation
                 </h3>
                 <ul className="mt-3 list-disc space-y-2 pl-5 leading-relaxed">
                   <li>
