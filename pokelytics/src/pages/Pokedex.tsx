@@ -1,33 +1,22 @@
-import { useEffect, useRef, useState } from "react";
-import Footer from "../components/Footer";
+import { useEffect, useMemo, useRef, useState } from "react";
 import NavBar from "../components/NavBar";
 
 // Pokedex - Dataset
 // Dataset description: source, size, features, target, and preprocessing steps
 //
-// The tables are served by the FastAPI backend (api/routes/datasets.py):
-//   GET /datasets          -> metadata of the three CSV files
-//   GET /datasets/{key}    -> one page of rows (search + type filter supported)
-// Start it with `uvicorn api:app` inside /api, or point VITE_API_URL somewhere else.
-
-const API_URL: string = import.meta.env.VITE_API_URL ?? "http://127.0.0.1:8000";
+// The tables are read straight from the CSV files in /public/data, so no backend is needed
+// and the page works on any static host (GitHub Pages, Netlify, Vercel, ...):
+//   public/data/pokemon_categorical_binning.csv
+//   public/data/pokemon_onehot_keep_type.csv
+// Search, type filter and pagination all run in the browser.
 
 type Cell = string | number;
-
-type DatasetMeta = {
-  key: string;
-  label: string;
-  filename: string;
-  rows: number;
-  columns: number;
-};
 
 type DatasetPage = {
   key: string;
   label: string;
   columns: string[];
   rows: Cell[][];
-  row_types: (string | null)[];
   total: number;
   dataset_rows: number;
   page: number;
@@ -35,17 +24,31 @@ type DatasetPage = {
   pages: number;
 };
 
-type Result = {
-  requestId: string;
-  data: DatasetPage | null;
-  error: string | null;
+type ParsedDataset = {
+  columns: string[];
+  rows: Cell[][];
 };
 
-// Buttons are always rendered (even if the API is down); sizes are filled in from the API.
+// Buttons are always rendered (even while loading); sizes are filled in from the CSV files.
 const tabs = [
-  { key: "categorical", label: "Pokemon_Categorical", rows: 1025, columns: 17 },
-  { key: "onehot_keep_type", label: "Pokemon_Onehot (Keep Type)", rows: 1025, columns: 177 },
+  {
+    key: "categorical",
+    label: "Pokemon_Categorical",
+    file: "pokemon_categorical_binning.csv",
+    rows: 1025,
+    columns: 17,
+  },
+  {
+    key: "onehot_keep_type",
+    label: "Pokemon_Onehot (Keep Type)",
+    file: "pokemon_onehot_keep_type.csv",
+    rows: 1025,
+    columns: 177,
+  },
 ];
+
+// BASE_URL keeps this working when the site is hosted under a sub-path (e.g. /pokelytics/)
+const csvUrl = (file: string) => `${import.meta.env.BASE_URL}data/${file}`;
 
 const features = [
   "pokedex_id",
@@ -144,6 +147,83 @@ const textColumns = new Set(["name", "type_1", "ability_1", "hidden_ability", "c
 
 const formatNumber = (n: number) => n.toLocaleString("en-US");
 
+// Minimal RFC-4180 CSV parser (quoted fields, escaped quotes, CRLF/LF line endings)
+function parseCsvText(text: string): string[][] {
+  const out: string[][] = [];
+  let row: string[] = [];
+  let field = "";
+  let inQuotes = false;
+
+  const src = text.charCodeAt(0) === 0xfeff ? text.slice(1) : text; // strip BOM
+
+  for (let i = 0; i < src.length; i++) {
+    const ch = src[i];
+    if (inQuotes) {
+      if (ch === '"') {
+        if (src[i + 1] === '"') {
+          field += '"';
+          i++;
+        } else {
+          inQuotes = false;
+        }
+      } else {
+        field += ch;
+      }
+    } else if (ch === '"') {
+      inQuotes = true;
+    } else if (ch === ",") {
+      row.push(field);
+      field = "";
+    } else if (ch === "\n" || ch === "\r") {
+      if (ch === "\r" && src[i + 1] === "\n") i++;
+      row.push(field);
+      field = "";
+      if (row.length > 1 || row[0] !== "") out.push(row); // skip blank lines
+      row = [];
+    } else {
+      field += ch;
+    }
+  }
+  if (field !== "" || row.length > 0) {
+    row.push(field);
+    if (row.length > 1 || row[0] !== "") out.push(row);
+  }
+  return out;
+}
+
+function parseDataset(text: string, file: string): ParsedDataset {
+  // Static hosts often answer a missing file with index.html instead of a 404
+  if (text.trimStart().startsWith("<")) {
+    throw new Error(`${file} was not found (is it inside public/data?)`);
+  }
+
+  const [header, ...body] = parseCsvText(text);
+  if (!header || !header.includes("name") || !header.includes("type_1")) {
+    throw new Error(`${file} doesn't look like the Pokémon dataset`);
+  }
+  const columns = header.map((h) => h.trim());
+
+  const rows: Cell[][] = body.map((raw) =>
+    columns.map((column, c) => {
+      const value = (raw[c] ?? "").trim();
+      if (textColumns.has(column)) return value;
+      if (column.startsWith("is_")) {
+        if (value === "True" || value === "true") return 1;
+        if (value === "False" || value === "false") return 0;
+      }
+      if (value === "") return "";
+      const n = Number(value);
+      return Number.isFinite(n) ? n : value;
+    }),
+  );
+
+  // Pokédex order
+  const idIdx = columns.indexOf("pokedex_id");
+  if (idIdx >= 0) rows.sort((a, b) => Number(a[idIdx]) - Number(b[idIdx]));
+
+  return { columns, rows };
+}
+
 export default function Pokedex() {
   const [selected, setSelected] = useState(tabs[0].key);
   const [page, setPage] = useState(1);
@@ -153,26 +233,37 @@ export default function Pokedex() {
   const [typeFilter, setTypeFilter] = useState("");
   const [reloadKey, setReloadKey] = useState(0);
 
-  const [meta, setMeta] = useState<DatasetMeta[]>([]);
-  const [result, setResult] = useState<Result>({
-    requestId: "",
-    data: null,
-    error: null,
-  });
+  const [datasets, setDatasets] = useState<Record<string, ParsedDataset>>({});
+  const [errors, setErrors] = useState<Record<string, string>>({});
 
   const tableScroll = useRef<HTMLDivElement>(null);
 
-  // Dataset sizes (for the buttons and the description cards)
+  // Read both CSV files once (and again when "Try again" is pressed)
   useEffect(() => {
     const controller = new AbortController();
-    fetch(`${API_URL}/datasets`, { signal: controller.signal })
-      .then((res) => (res.ok ? (res.json() as Promise<DatasetMeta[]>) : []))
-      .then(setMeta)
-      .catch(() => {});
+    tabs.forEach((tab) => {
+      fetch(csvUrl(tab.file), { signal: controller.signal })
+        .then((res) => {
+          if (!res.ok) throw new Error(`${tab.file} could not be loaded (HTTP ${res.status})`);
+          return res.text();
+        })
+        .then((text) => {
+          const parsed = parseDataset(text, tab.file);
+          setDatasets((prev) => ({ ...prev, [tab.key]: parsed }));
+          setErrors((prev) => ({ ...prev, [tab.key]: "" }));
+        })
+        .catch((err: unknown) => {
+          if (controller.signal.aborted) return;
+          setErrors((prev) => ({
+            ...prev,
+            [tab.key]: err instanceof Error ? err.message : "Request failed",
+          }));
+        });
+    });
     return () => controller.abort();
-  }, []);
+  }, [reloadKey]);
 
-  // Wait a moment after typing before asking the API
+  // Wait a moment after typing before filtering
   useEffect(() => {
     const timer = setTimeout(() => {
       setSearch(searchInput.trim());
@@ -181,43 +272,52 @@ export default function Pokedex() {
     return () => clearTimeout(timer);
   }, [searchInput]);
 
-  const params = new URLSearchParams({
-    page: String(page),
-    page_size: String(pageSize),
-    search,
-    type: typeFilter,
-  });
-  const url = `${API_URL}/datasets/${selected}?${params}`;
-  const requestId = `${url}#${reloadKey}`;
+  // Search + type filter + pagination, all in the browser
+  const shown = useMemo<DatasetPage | null>(() => {
+    const dataset = datasets[selected];
+    if (!dataset) return null;
 
-  // Load the visible page of the active dataset
-  useEffect(() => {
-    const controller = new AbortController();
-    fetch(url, { signal: controller.signal })
-      .then((res) => {
-        if (!res.ok) throw new Error(`The server responded with ${res.status}`);
-        return res.json() as Promise<DatasetPage>;
-      })
-      .then((data) => setResult({ requestId, data, error: null }))
-      .catch((err: unknown) => {
-        if (controller.signal.aborted) return;
-        setResult((prev) => ({
-          requestId,
-          data: prev.data,
-          error: err instanceof Error ? err.message : "Request failed",
-        }));
-      });
-    return () => controller.abort();
-  }, [url, requestId]);
+    const idIdx = dataset.columns.indexOf("pokedex_id");
+    const nameIdx = dataset.columns.indexOf("name");
+    const typeIdx = dataset.columns.indexOf("type_1");
+    const query = search.toLowerCase();
 
-  // Never show another dataset's columns while the new one is loading
-  const shown = result.data && result.data.key === selected ? result.data : null;
-  const loading = result.requestId !== requestId;
-  const failed = !loading && result.error !== null;
+    const filtered = dataset.rows.filter((row) => {
+      if (typeFilter && String(row[typeIdx]).toLowerCase() !== typeFilter) return false;
+      if (!query) return true;
+      return (
+        String(row[nameIdx]).toLowerCase().includes(query) ||
+        (idIdx >= 0 && String(row[idIdx]).startsWith(query))
+      );
+    });
+
+    const pages = Math.max(1, Math.ceil(filtered.length / pageSize));
+    const current = Math.min(page, pages);
+    const startAt = (current - 1) * pageSize;
+
+    return {
+      key: selected,
+      label: tabs.find((t) => t.key === selected)?.label ?? selected,
+      columns: dataset.columns,
+      rows: filtered.slice(startAt, startAt + pageSize),
+      total: filtered.length,
+      dataset_rows: dataset.rows.length,
+      page: current,
+      page_size: pageSize,
+      pages,
+    };
+  }, [datasets, selected, search, typeFilter, page, pageSize]);
+
+  const error = errors[selected] || null;
+  const failed = !datasets[selected] && error !== null;
 
   const tabInfo = tabs.map((tab) => {
-    const info = meta.find((m) => m.key === tab.key);
-    return { ...tab, rows: info?.rows ?? tab.rows, columns: info?.columns ?? tab.columns };
+    const info = datasets[tab.key];
+    return {
+      ...tab,
+      rows: info?.rows.length ?? tab.rows,
+      columns: info?.columns.length ?? tab.columns,
+    };
   });
 
   const selectDataset = (key: string) => {
@@ -268,7 +368,7 @@ export default function Pokedex() {
           </div>
 
           <p className="mt-4 text-lg font-medium md:text-2xl">
-            Explore the Pokémon dataset!
+            Every Pokémon. Every feature. Ready for training.
           </p>
         </div>
       </section>
@@ -421,13 +521,11 @@ export default function Pokedex() {
             {failed && (
               <div className="rounded-2xl border-2 border-poke-red-paler bg-poke-red-paler/10 p-6 text-slate-700">
                 <h3 className="text-xl font-bold text-poke-red-pale">
-                  Couldn&apos;t reach the Pokélytics API
+                  Couldn&apos;t load the dataset
                 </h3>
                 <p className="mt-2 text-sm leading-relaxed">
-                  {result.error}. Make sure the backend is running (
-                  <code className="rounded bg-white px-1.5 py-0.5">uvicorn api:app</code> inside
-                  the <code className="rounded bg-white px-1.5 py-0.5">api</code> folder) and that{" "}
-                  <code className="rounded bg-white px-1.5 py-0.5">{API_URL}</code> is correct.
+                  {error}. Make sure the CSV files are inside{" "}
+                  <code className="rounded bg-white px-1.5 py-0.5">public/data</code>.
                 </p>
                 <button
                   type="button"
@@ -453,10 +551,7 @@ export default function Pokedex() {
             {!failed && shown && (
               <div
                 ref={tableScroll}
-                aria-busy={loading}
-                className={`max-h-[70vh] overflow-auto rounded-2xl border border-slate-200 shadow-sm transition-opacity ${
-                  loading ? "opacity-60" : ""
-                }`}
+                className="max-h-[70vh] overflow-auto rounded-2xl border border-slate-200 shadow-sm"
               >
                 <table className="min-w-full border-separate border-spacing-0 text-sm">
                   <caption className="sr-only">{shown.label}</caption>
@@ -672,8 +767,6 @@ export default function Pokedex() {
           </div>
         </div>
       </section>
-      <Footer/>
-      
     </>
   );
 }
