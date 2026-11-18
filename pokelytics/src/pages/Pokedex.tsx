@@ -1,3 +1,4 @@
+import Footer from "../components/Footer";
 import NavBar from "../components/NavBar";
 
 export default function Pokedex() {
@@ -7,6 +8,8 @@ export default function Pokedex() {
       <NavBar />
       Pokedex - Dataset
       Dataset description: source, size, features, target, and preprocessing steps
+      <Footer/>
+      
     </>
   );
 }

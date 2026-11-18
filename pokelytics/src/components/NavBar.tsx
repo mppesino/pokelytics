@@ -12,7 +12,6 @@ const leftLinks: NavItem[] = [
 ];
 
 const rightLinks: NavItem[] = [
-  { label: "References", path: "/references" },
   { label: "Trainers", path: "/trainers" },
 ];
 

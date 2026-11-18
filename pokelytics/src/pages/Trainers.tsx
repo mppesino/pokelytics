@@ -1,3 +1,4 @@
+import Footer from "../components/Footer";
 import NavBar from "../components/NavBar";
 
 const trainers = [
@@ -14,7 +15,7 @@ const trainers = [
     name: "Nathan Pabico",
     gif: "/pokelytics/gifs/aggron.gif",
     gifAlt: "Aggron",
-    bio: "“Pokemon is not a cartoon. Did you really just go there? Pokémon? A \"cartoon\"? Cartoons are for for kids. Things like Barney and Teletubbies. And don't try to tell me that Western cartoons can be made for for adults. Pokémon (ポケットモンスター) is an anime (アニメ). Anime (Japanese for immersive visual storytelling) has better art, better writing, better plots, and is MUCH more complicated.”",
+    bio: "“Pokemon is not a cartoon. Did you really just go there? Pokémon? A \"cartoon\"? Cartoons are for kids. Things like Barney and Teletubbies. And don't try to tell me that Western cartoons can be made for adults. Pokémon (ポケットモンスター) is an anime (アニメ). Anime (Japanese for immersive visual storytelling) has better art, better writing, better plots, and is MUCH more complicated.”",
     tasks: ["Naive-Bayes Algorithm", "Confusion Matrices", "Pokédex Page"],
     favoriteType: "Steel",
     favoritePokemon: "Aggron",
@@ -124,7 +125,10 @@ export default function Trainers() {
             </div>
           </section>
         </div>
+        
       </main>
+      <Footer/>
+
     </>
   );
 }
