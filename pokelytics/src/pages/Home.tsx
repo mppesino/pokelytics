@@ -2,7 +2,7 @@ import NavBar from "../components/NavBar";
 
 const methods = ["KNN", "Naive Bayes", "K-Means"];
 
-// Pokémon shown in the carousel (id = Pokédex number)
+// Pokemon shown in the carousel (id = Pokédex number)
 const showcase = [
   { id: 25, name: "Pikachu" },
   { id: 1, name: "Bulbasaur" },
@@ -40,7 +40,7 @@ export default function Home() {
         {/* Full-color image fills the whole banner */}
         <img
           src={`${import.meta.env.BASE_URL}pokelytics.gif`}
-          alt="Pokémon plush animation"
+          alt="Pokemon plush animation"
           className="absolute inset-0 h-full w-full object-cover object-center saturate-125"
         />
 
@@ -111,7 +111,7 @@ export default function Home() {
             Why Pokelytics?
           </h2>
 
-   {/* Pokémon carousel*/}
+   {/* Pokemon carousel*/}
 
           <div className="mt-10 grid gap-8 md:grid-cols-2">
             {/* Problem */}
@@ -121,11 +121,11 @@ export default function Home() {
                 </h3>
                 <p className="mt-4 font-poppins text-base leading-relaxed text-white">
                 Labeling something from its measurable traits is a problem far bigger
-                than Pokémon. Biologists do it when classifying a newly found species,
-                and Pokémon game developers may struggle with deciding a Pokémon’s type
+                than Pokemon. Biologists do it when classifying a newly found species,
+                and Pokemon game developers may struggle with deciding a Pokemon’s type
                 despite having decided on their attributes. Can an algorithm predict a
-                Pokémon’s type from its stats and traits, and can it uncover patterns
-                that may give insights to how a Pokémon is designed?
+                Pokemon’s type from its stats and traits, and can it uncover patterns
+                that may give insights to how a Pokemon is designed?
                 </p>
             </div>
 
@@ -136,19 +136,19 @@ export default function Home() {
                 Our Motivation
               </h3>
               <p className="mt-4 font-poppins text-base leading-relaxed text-white">
-                We believe that all Pokémon matter, and yet every newly discovered
-                Pokémon raises the same question: what type is it? Type decides how a
-                Pokémon fights, which attacks it resists, and which rivals it should
+                We believe that all Pokemon matter, and yet every newly discovered
+                Pokemon raises the same question: what type is it? Type decides how a
+                Pokemon fights, which attacks it resists, and which rivals it should
                 avoid, so a wrong guess can cost a trainer the match. Meanwhile, the
                 Pokédex keeps growing, and sorting it by hand gets harder with every
                 new entry. We hope that Pokélytics will be able to solve the classification
-                needs of modern Pokémon trainers!
+                needs of modern Pokemon trainers!
               </p>
             </div>
 
         <div
             className="md:col-span-2 overflow-hidden py-4 motion-reduce:overflow-x-auto mask-[linear-gradient(to_right,transparent,black_20%,black_80%,transparent)] [-webkit-mask-image:linear-gradient(to_right,transparent,black_20%,black_80%,transparent)]"
-            aria-label="Pokémon showcase"
+            aria-label="Pokemon showcase"
           >
             <ul className="flex w-max animate-marquee hover:[animation-play-state:paused] motion-reduce:animate-none">
               {[...showcase, ...showcase].map((pokemon, i) => {
@@ -184,10 +184,10 @@ export default function Home() {
               </h3>
               <ul className="mt-4 list-disc space-y-2 pl-5 font-poppins text-base leading-relaxed text-white">
                 <li>
-                  Gather a comprehensive Pokémon dataset with the features necessary for training.
+                  Gather a comprehensive Pokemon dataset with the features necessary for training.
                 </li>
                 <li>
-                  Train Naive Bayes, K-Nearest Neighbors, and K-Means Clustering (with most common type labeling) to predict Pokémon type.
+                  Train Naive Bayes, K-Nearest Neighbors, and K-Means Clustering (with most common type labeling) to predict Pokemon type.
                 </li>
                 <li>
                   Compare the methods using Accuracy, F1 score, and Confusion Matrix.
