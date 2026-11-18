@@ -3,7 +3,6 @@ import Home from './pages/Home'
 import Battle from './pages/Battle'
 import Pokedex from './pages/Pokedex'
 import Training from './pages/Training'
-import References from './pages/References'
 import Trainers from './pages/Trainers'
 
 function App() {
@@ -13,7 +12,6 @@ function App() {
       <Route path="/pokedex" element={<Pokedex />}/>
       <Route path="/training" element={<Training />}/>
       <Route path="/battle" element={<Battle />}/>
-      <Route path="/references" element={<References />}/>
       <Route path="/trainers" element={<Trainers />}/>
 
     </Routes>

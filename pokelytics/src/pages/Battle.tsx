@@ -1,6 +1,7 @@
 
 import { useState } from "react";
 import NavBar from "../components/NavBar";
+import Footer from "../components/Footer";
 
 const algorithms = [
   {
@@ -257,6 +258,7 @@ export default function Battle() {
 
 
       </main>
+      <Footer/>
     </>
   );
 }

@@ -1,3 +1,4 @@
+import Footer from "../components/Footer";
 import NavBar from "../components/NavBar";
 
 export default function Training() {
@@ -19,12 +20,12 @@ export default function Training() {
           <section aria-labelledby="methods-heading">
             <h2
               id="methods-heading"
-              className="font-luckiest text-4xl text-poke-red-pale"
+              className="font-luckiest text-4xl text-poke-blue-pale"
             >
               Methods
             </h2>
             <div className="mt-6 grid gap-6 md:grid-cols-3">
-              <article className="rounded-2xl border-2 border-poke-red-paler bg-linear-to-br from-poke-red-pale to-poke-red-paler p-6 text-white">
+              <article className="rounded-2xl border-2 border-poke-blue-paler bg-linear-to-br from-poke-blue-pale to-poke-blue-paler p-6 text-white">
                 <h3 className="font-poppins text-2xl font-bold">
                   K-Nearest Neighbors
                 </h3>
@@ -57,7 +58,7 @@ export default function Training() {
                 </p>
               </article>
 
-              <article className="rounded-2xl border-2 border-poke-red-paler bg-linear-to-br from-poke-red-paler to-poke-red-pale p-6 text-white">
+              <article className="rounded-2xl border-2 border-poke-blue-paler bg-linear-to-br from-poke-blue-pale to-poke-blue-paler p-6 text-white">
                 <h3 className="font-poppins text-2xl font-bold">K-Means</h3>
                 <p className="mt-4 font-poppins leading-relaxed">
                   K-Means groups Pokémon by similarity in their numeric
@@ -79,7 +80,7 @@ export default function Training() {
           >
             <h2
               id="setup-heading"
-              className="font-luckiest text-4xl text-poke-red-pale"
+              className="font-luckiest text-4xl text-poke-blue-pale"
             >
               Experimental Setup
             </h2>
@@ -129,7 +130,10 @@ export default function Training() {
             </div>
           </section>
         </div>
+        
       </main>
+      <Footer/>
+
     </>
   );
 }

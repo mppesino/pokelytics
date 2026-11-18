@@ -12,11 +12,14 @@ const leftLinks: NavItem[] = [
 ];
 
 const rightLinks: NavItem[] = [
-  { label: "References", path: "/references" },
   { label: "Trainers", path: "/trainers" },
 ];
 
-export default function NavBar() {
+interface NavBarProps {
+  color?:string;
+}
+
+export default function NavBar({ color = "poke-red-dark-pale"}: NavBarProps) {
   const navigate = useNavigate();
   const { pathname } = useLocation();
 
@@ -32,7 +35,7 @@ const renderLink = (link: NavItem, extra = "") => {
       data-label={link.label}
       className={`cursor-pointer rounded-full px-4 py-1.5 text-base transition-all duration-200 ease-out after:invisible after:block after:h-0 after:overflow-hidden after:font-extrabold after:content-[attr(data-label)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white motion-reduce:transition-none ${
         active
-          ? "bg-white font-extrabold text-poke-red-dark-pale shadow-md"
+          ? `bg-white font-extrabold text-${color} shadow-md`
           : "font-medium text-white/85 hover:bg-white/15 hover:text-white"
       } ${extra}`}
     >
@@ -42,7 +45,7 @@ const renderLink = (link: NavItem, extra = "") => {
 };
 
   return (
-    <nav className="sticky top-0 z-50 flex h-16 w-full items-center justify-between bg-poke-red-dark-pale px-8 font-poppins">
+    <nav className={`sticky top-0 z-50 flex h-16 w-full items-center justify-between bg-${color} px-8 font-poppins`}>
       {/* Left side */}
       <div className="flex items-center gap-3 text-white">
         <Link

@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import Footer from "../components/Footer";
 import NavBar from "../components/NavBar";
 
 // Pokedex - Dataset
@@ -671,6 +672,8 @@ export default function Pokedex() {
           </div>
         </div>
       </section>
+      <Footer/>
+      
     </>
   );
 }
