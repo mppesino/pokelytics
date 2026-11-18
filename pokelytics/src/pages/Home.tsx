@@ -108,7 +108,7 @@ export default function Home() {
       >
         <div className="mx-auto max-w-6xl">
           <h2 className="font-luckiest text-5xl text-poke-red-pale md:text-6xl">
-            Why Pokelytics?
+            Why Pokélytics?
           </h2>
 
    {/* Pokemon carousel*/}
@@ -121,11 +121,11 @@ export default function Home() {
                 </h3>
                 <p className="mt-4 font-poppins text-base leading-relaxed text-white">
                 Labeling something from its measurable traits is a problem far bigger
-                than Pokemon. Biologists do it when classifying a newly found species,
-                and Pokemon game developers may struggle with deciding a Pokemon’s type
+                than Pokémon. Biologists do it when classifying a newly found species,
+                and Pokémon game developers may struggle with deciding a Pokémon’s type
                 despite having decided on their attributes. Can an algorithm predict a
-                Pokemon’s type from its stats and traits, and can it uncover patterns
-                that may give insights to how a Pokemon is designed?
+                Pokémon’s type from its stats and traits, and can it uncover patterns
+                that may give insights to how a Pokémon is designed?
                 </p>
             </div>
 
@@ -136,13 +136,13 @@ export default function Home() {
                 Our Motivation
               </h3>
               <p className="mt-4 font-poppins text-base leading-relaxed text-white">
-                We believe that all Pokemon matter, and yet every newly discovered
-                Pokemon raises the same question: what type is it? Type decides how a
-                Pokemon fights, which attacks it resists, and which rivals it should
+                We believe that all Pokémon matter, and yet every newly discovered
+                Pokémon raises the same question: what type is it? Type decides how a
+                Pokémon fights, which attacks it resists, and which rivals it should
                 avoid, so a wrong guess can cost a trainer the match. Meanwhile, the
                 Pokédex keeps growing, and sorting it by hand gets harder with every
                 new entry. We hope that Pokélytics will be able to solve the classification
-                needs of modern Pokemon trainers!
+                needs of modern Pokémon trainers!
               </p>
             </div>
 
@@ -184,10 +184,10 @@ export default function Home() {
               </h3>
               <ul className="mt-4 list-disc space-y-2 pl-5 font-poppins text-base leading-relaxed text-white">
                 <li>
-                  Gather a comprehensive Pokemon dataset with the features necessary for training.
+                  Gather a comprehensive Pokémon dataset with the features necessary for training.
                 </li>
                 <li>
-                  Train Naive Bayes, K-Nearest Neighbors, and K-Means Clustering (with most common type labeling) to predict Pokemon type.
+                  Train Naive Bayes, K-Nearest Neighbors, and K-Means Clustering (with most common type labeling) to predict Pokémon type.
                 </li>
                 <li>
                   Compare the methods using Accuracy, F1 score, and Confusion Matrix.

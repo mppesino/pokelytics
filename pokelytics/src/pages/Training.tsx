@@ -85,7 +85,7 @@ export default function Training() {
             </h2>
             <div className="mt-6 grid gap-8 font-poppins text-slate-700 md:grid-cols-2">
               <div>
-                <h3 className="text-xl font-bold text-slate-900">
+                <h3 className="text-xl font-bold text-poke-blue-dark">
                   Dataset and Preprocessing
                 </h3>
                 <ul className="mt-3 list-disc space-y-2 pl-5 leading-relaxed">
@@ -103,7 +103,7 @@ export default function Training() {
               </div>
 
               <div>
-                <h3 className="text-xl font-bold text-slate-900">
+                <h3 className="text-xl font-bold text-poke-blue-dark">
                   Tuning and Evaluation
                 </h3>
                 <ul className="mt-3 list-disc space-y-2 pl-5 leading-relaxed">

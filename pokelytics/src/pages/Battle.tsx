@@ -35,14 +35,14 @@ export default function Battle() {
       <main className="font-poppins bg-slate-50">
 
         {/* HERO SECTION */}
-        <section className="bg-poke-blue-dark px-8 py-24 text-center text-white">
+        <section className="bg-poke-red-dark-pale px-8 py-24 text-center text-white">
 
           <h1 className="font-luckiest text-6xl md:text-8xl">
-            The Battle Arena
+            The Poké Battle Arena
           </h1>
 
           <p className="mt-4 text-xl">
-            Three algorithms. One classification challenge.
+            How well can three algorithms perform under one classification challenge?
           </p>
 
           <div className="mt-8 flex flex-wrap justify-center gap-3">
@@ -110,8 +110,8 @@ export default function Battle() {
                 aria-pressed={selected === index}
                 className={`cursor-pointer rounded-full px-6 py-3 font-semibold transition-colors ${
                   selected === index
-                    ? "bg-poke-blue text-white"
-                    : "bg-white text-poke-blue hover:bg-blue-100"
+                    ? "bg-poke-blue-dark text-white"
+                    : "bg-white text-poke-blue-dark hover:bg-blue-100"
                 }`}
               >
                 {algorithm.name}
@@ -178,7 +178,7 @@ export default function Battle() {
                   Understanding the Results
                 </h4>
 
-                <p className="mt-2 text-sm font-semibold text-poke-blue">
+                <p className="mt-2 text-sm font-semibold text-poke-blue-paler">
                   {algorithms[selected].name}
                 </p>
 
@@ -237,24 +237,24 @@ export default function Battle() {
 
           </div>
 
-        </section>
+           <div className="mt-8 rounded-2xl bg-blue-50 p-6 shadow-sm">
 
-        {/* CONCLUSION SECTION */}
-        <section className="bg-poke-blue-dark px-8 py-20 text-white">
+            <h3 className="text-2xl font-bold text-poke-blue-dark">
+                            The Verdict
 
-          <div className="mx-auto max-w-6xl">
+            </h3>
 
-            <h2 className="font-luckiest text-5xl">
-              The Verdict
-            </h2>
-
-            <p className="mt-6 max-w-4xl text-lg leading-relaxed">
+            <p className="mt-4 leading-relaxed text-slate-600">
               Among the three evaluated algorithms, KNN demonstrated the strongest classification performance, followed by Naive Bayes and K-Means. The results indicate that Pokémon types can be partially predicted using their measurable attributes, although these features alone are insufficient for consistently accurate classification. Ultimately, Pokélytics demonstrates the potential of machine learning in Pokémon classification while highlighting opportunities for further improvement.
             </p>
 
           </div>
 
+
         </section>
+
+    
+
 
       </main>
     </>
