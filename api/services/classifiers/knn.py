@@ -47,7 +47,7 @@ class KNNClassifier:
         self.len_test_data = len(test)
             
 
-    #compute the Minkowski distance between two points
+    #compute the Minkowski distance between two points 
     def minkowski(self, p1, p2, p):
         total = 0
 
