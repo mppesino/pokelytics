@@ -8,9 +8,12 @@ from ..evaluator import Evaluator
 This file contains the Naive Bayes algorithm for Pokelytics.
 '''
 
+NUMERIC_FEATURES = (
+"ability_1","hidden_ability","color","shape")
+
 class NaiveBayes:
 
-    def __init__(self, smooth=1.0):
+    def __init__(self, smooth=1.0,):
         self.smooth = smooth
 
         # Naive Bayes Algorithm
@@ -18,6 +21,7 @@ class NaiveBayes:
         self.unique_cats_prob = {}
         self.unique_cats_prob_xy = {}
         self.unique_cats_NB = {}
+
         
         # Extra Variables
         self.unique_words = []
@@ -33,14 +37,13 @@ class NaiveBayes:
                 self.unique_cats[category] = {}
 
     def get_words(self, row):
-        #fetches the "words" that have value not "na"
         words = []
         if not row:
             return words
-        for value in row[3:]:
-            word = str(value).strip().lower()
-            if word and word != 'na':
-                words.append(word)
+        for name, i in zip(self.feature_names, self.feature_idx):
+            value = str(row[i]).strip().lower()
+            if value and value != 'na':
+                words.append(f"{name}={value}")
         return words
 
     def generate_training_data(self):
@@ -146,7 +149,13 @@ class NaiveBayes:
         
         evaluator.print_all_metrics(output)
         return output
-    def build(self, train:list, test:list):
+    def build(self, train:list, test:list, lookup: dict):
+
+        # Get Features
+        self.feature_names = [name for name in lookup if name.startswith(NUMERIC_FEATURES)]
+        self.feature_idx = [lookup[name] for name in self.feature_names]
+        if not self.feature_idx:
+            raise ValueError(f"No columns in the dataset match NUMERIC_FEATURES {NUMERIC_FEATURES}")
 
         # Training Data (70% of total data)
         self.train_data = train

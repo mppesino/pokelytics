@@ -2,12 +2,12 @@
 import csv
 from ..evaluator import Evaluator
 
-PREFIXES = ("is_ability_", "is_shape_", "is_color_")
+PREFIXES = ("is_ability_", "is_shape_", "is_color_", "is_hidden_ability_")
 
 class KNNClassifier:
 
     #initialize the KNN classifier with k and p values
-    def __init__(self, k:int=3, p:int=1):
+    def __init__(self, k:int=1, p:int=1):
         self.k = k
         self.p = p
 

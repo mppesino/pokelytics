@@ -5,9 +5,8 @@ from ..evaluator import Evaluator
 import numpy as np
 
 NUMERIC_FEATURES = (
-    "hp", "attack", "defense", "sp_attack", "sp_defense", "speed",
-    "height_m", "weight_kg",
-    "is_hidden_ability", "ability_1"
+    "is_shape_", "is_color_",
+    "is_hidden_ability", "is_ability_"
     )
 
 EXCLUDED_COLUMNS = {"pokedex_id", "name", "type_1"}
@@ -49,7 +48,10 @@ class KMeans:
         self.len_test_data = 0
 
     def generate_train_test(self, train: list, test: list, lookup: dict):
-        self.feature_names = [name for name in lookup if name not in EXCLUDED_COLUMNS]
+        self.feature_names = [
+            name for name in lookup
+            if name.startswith(NUMERIC_FEATURES) and name not in EXCLUDED_COLUMNS
+        ]
         feature_idx = [lookup[name] for name in self.feature_names]
 
         if not self.feature_names:
@@ -71,15 +73,6 @@ class KMeans:
 
         if not (np.isfinite(train_features).all() and np.isfinite(test_features).all()):
             raise ValueError("Dataset contains NaN or infinite feature values")
-
-        # standardize using training statistics only
-        for col in NUMERIC_FEATURES:
-            if col in self.feature_names:
-                j = self.feature_names.index(col)
-                mean = train_features[:, j].mean()
-                std = train_features[:, j].std()
-                train_features[:, j] = (train_features[:, j] - mean) / std if std else 0.0
-                test_features[:, j] = (test_features[:, j] - mean) / std if std else 0.0
 
         self.features = train_features
         self.names = [row[name_idx] for row in train]

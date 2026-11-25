@@ -29,7 +29,7 @@ class Pipeline:
         self.cat_data = self.dt.load_csv(CAT_BINNING)
         self.onehot_data = self.dt.load_csv(ONEHOT_KEEP_TYPE)
 
-        self.cat_header = self.dt.build_header_lookup(self.cat_data)
+        self.cat_header = self.dt.build_index_lookup(self.cat_data)
         self.onehot_header = self.dt.build_index_lookup(self.onehot_data)
 
         self.cat_train, self.cat_test = self.split_data(self.cat_data)
@@ -101,7 +101,7 @@ class Pipeline:
 
         print("\n------------------------------------------")
         self.nb = NaiveBayes(NB_BEST_S)
-        self.nb.build(self.cat_train, self.cat_test)
+        self.nb.build(self.cat_train, self.cat_test, self.cat_header)
         outputs["Naive Bayes"] = self.nb.classify(self.ev, verbose)
 
         print("\n------------------------------------------")
@@ -188,6 +188,6 @@ class Pipeline:
 
 if __name__ == "__main__":
     p = Pipeline()
-    # p.grid_search()
+    #p.grid_search()
     p.run_best()
     p.compare_models()
