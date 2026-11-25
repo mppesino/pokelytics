@@ -360,6 +360,8 @@ export default function Training() {
 
         </div>
       </main>
+      <Footer/>
+
     </>
   );
 }

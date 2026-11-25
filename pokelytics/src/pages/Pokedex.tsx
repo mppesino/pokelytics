@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import NavBar from "../components/NavBar";
+import Footer from "../components/Footer";
 
 // Pokedex - Dataset
 // Dataset description: source, size, features, target, and preprocessing steps
@@ -767,6 +768,7 @@ export default function Pokedex() {
           </div>
         </div>
       </section>
+      <Footer/>
     </>
   );
 }
