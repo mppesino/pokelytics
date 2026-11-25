@@ -10,12 +10,9 @@
     - Create a Virtual Environment `python -m venv ./venv`
     - Activate Virtual Environment `venv\Scripts\activate`
     - Install Requirements `pip install -r requirements.txt`
-2. Pipeline (Algorithms, Evaluation Only)
+2. Pipeline (Algorithms and Evaluation)
     - Navigate to api folder `cd api`
     - Run Pipeline `python pipeline.py`
-3. API **Doesn't do anything yet, try running Pipeline*
-    - Navigate to api folder `cd api`
-    - Run API `uvicorn api:app`
 
 ## Dataset
 - Raw data on the [Ultimate Pokemon Dataset (2026)](https://www.kaggle.com/datasets/darkmatternet/ultimate-pokmon-dataset-2025)
