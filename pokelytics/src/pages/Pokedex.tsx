@@ -369,7 +369,7 @@ export default function Pokedex() {
           </div>
 
           <p className="mt-4 text-lg font-medium md:text-2xl">
-            Every Pokémon. Every feature. Ready for training.
+            Details on the Pokémon Dataset
           </p>
         </div>
       </section>
