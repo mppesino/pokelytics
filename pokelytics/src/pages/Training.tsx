@@ -1,4 +1,5 @@
 
+import Footer from "../components/Footer";
 import NavBar from "../components/NavBar";
 
 type Algorithm = {
@@ -95,16 +96,16 @@ function MethodCard({ algorithm }: MethodCardProps) {
           {algorithm.number}
         </span>
 
-        <span className="rounded-full bg-gray-100 px-3 py-1 text-right font-poppins text-xs font-semibold text-gray-600">
+        <span className="rounded-full bg-gray-100 px-3 py-1 text-sright font-poppins text-xs font-semibold text-gray-600">
           {algorithm.category}
         </span>
       </div>
 
-      <h3 className="font-poppins text-2xl font-bold md:text-3xl lg:min-h-[4.5rem]">
+      <h3 className="font-poppins text-2xl font-bold md:text-3xl lg:min-h-18">
         {algorithm.name}
       </h3>
 
-      <p className="mt-3 font-poppins text-sm font-medium leading-relaxed text-gray-600 lg:min-h-[4.5rem]">
+      <p className="mt-3 font-poppins text-sm font-medium leading-relaxed text-gray-600 lg:min-h-18">
         {algorithm.description}
       </p>
 
